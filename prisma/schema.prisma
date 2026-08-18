@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @default(cuid())
+  name      String
+  email     String    @unique
+  phone     String
+  password  String
+  role      String    @default("CUSTOMER")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  bookings  Booking[]
+}
+
+model VehicleTier {
+  id            String    @id @default(cuid())
+  slug          String    @unique
+  nameEn        String
+  nameAr        String
+  minPassengers Int
+  maxPassengers Int
+  basePrice     Float?
+  descriptionEn String
+  descriptionAr String
+  bookings      Booking[]
+  vehicles      Vehicle[]
+}
+
+model Vehicle {
+  id            String      @id @default(cuid())
+  name          String
+  model         String
+  plateNumber   String?
+  vehicleTierId String
+  vehicleTier   VehicleTier @relation(fields: [vehicleTierId], references: [id])
+  isActive      Boolean     @default(true)
+  bookings      Booking[]
+}
+
+model Driver {
+  id       String    @id @default(cuid())
+  name     String
+  phone    String
+  isActive Boolean   @default(true)
+  bookings Booking[]
+}
+
+model Booking {
+  id              String      @id @default(cuid())
+  userId          String
+  user            User        @relation(fields: [userId], references: [id])
+  vehicleTierId   String
+  vehicleTier     VehicleTier @relation(fields: [vehicleTierId], references: [id])
+  vehicleId       String?
+  vehicle         Vehicle?    @relation(fields: [vehicleId], references: [id])
+  driverId        String?
+  driver          Driver?     @relation(fields: [driverId], references: [id])
+  route           String
+  pickupDate      DateTime
+  pickupTime      String
+  pickupLocation  String
+  dropoffLocation String
+  passengers      Int
+  status          String      @default("PENDING")
+  notes           String?
+  quotedPrice     Float?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}

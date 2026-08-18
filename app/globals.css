@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0a0a0a;
+  --foreground: #f5f5f5;
+  --gold: #c9a227;
+  --gold-light: #e8a317;
+  --gold-muted: rgba(201, 162, 39, 0.15);
+  --border-gold: rgba(201, 162, 39, 0.4);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-muted: var(--gold-muted);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-cormorant);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-cormorant), Georgia, serif;
+}
+
+.gold-gradient-text {
+  background: linear-gradient(135deg, #e8a317 0%, #c9a227 50%, #a88620 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gold-border {
+  border: 1px solid var(--border-gold);
+}
+
+.gold-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.section-padding {
+  @apply px-4 py-16 sm:px-6 lg:px-8 lg:py-24;
+}
+
+.card-luxury {
+  @apply rounded-lg border border-[var(--border-gold)] bg-[#111111] p-6 transition-all duration-300 hover:border-[var(--gold)];
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center rounded-md bg-[var(--gold)] px-6 py-3 text-sm font-semibold uppercase tracking-wider text-black transition-all hover:bg-[var(--gold-light)] hover:shadow-lg hover:shadow-[var(--gold)]/20;
+}
+
+.btn-outline {
+  @apply inline-flex items-center justify-center rounded-md border border-[var(--gold)] px-6 py-3 text-sm font-semibold uppercase tracking-wider text-[var(--gold)] transition-all hover:bg-[var(--gold-muted)];
+}
+
+.feature-scroll::-webkit-scrollbar {
+  height: 4px;
+}
+
+.feature-scroll::-webkit-scrollbar-thumb {
+  background: var(--gold);
+  border-radius: 4px;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+@keyframes routePulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+.route-pulse {
+  animation: routePulse 2s ease-in-out infinite;
+}
