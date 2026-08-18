@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Horizon-VIP-Move
 
 Premium VIP passenger transportation website and installable PWA for travel between Saudi Arabia and Bahrain.
@@ -55,3 +56,6 @@ Copy `.env.example` to `.env` and configure:
 - `components/` — UI components
 - `messages/` — i18n translations
 - `prisma/` — Database schema & seed
+=======
+# Horizon-vip-move
+>>>>>>> 273677e99465b9a8717610d6922203c6b8dda74b
