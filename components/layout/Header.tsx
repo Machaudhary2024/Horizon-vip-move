@@ -47,12 +47,15 @@ export default function Header({ isAdmin }: { isAdmin?: boolean }) {
             </Link>
           ))}
           {isAdmin && (
-            <a href="/admin" className="text-sm text-[var(--gold-light)]">
+            <Link href="/admin" className="text-sm text-[var(--gold-light)]">
               {t("admin")}
-            </a>
+            </Link>
           )}
           <Link href="/dashboard" className="text-sm text-gray-300 hover:text-[var(--gold)]">
             {t("dashboard")}
+          </Link>
+          <Link href="/profile" className="text-sm text-gray-300 hover:text-[var(--gold)]">
+            {t("profile")}
           </Link>
           <LanguageSwitcher />
           <Link href="/booking" className="btn-primary !py-2 !text-xs">
@@ -90,6 +93,9 @@ export default function Header({ isAdmin }: { isAdmin?: boolean }) {
             className="block py-3 text-sm text-gray-300"
           >
             {t("dashboard")}
+          </Link>
+          <Link href="/profile" onClick={() => setOpen(false)} className="block py-3 text-sm text-gray-300">
+            {t("profile")}
           </Link>
         </nav>
       )}

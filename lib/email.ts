@@ -91,3 +91,14 @@ export function statusUpdateEmail({
     </div>
   `;
 }
+
+export function passwordResetEmail({ resetUrl }: { resetUrl: string }) {
+  return `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #0A0A0A; color: #fff; padding: 24px; border: 1px solid #C9A227;">
+      <h1 style="color: #C9A227;">Horizon-VIP-Move</h1>
+      <h2>Password Reset</h2>
+      <p>Use the link below to choose a new password. This link expires in one hour.</p>
+      <p><a href="${resetUrl}" style="color: #C9A227;">Reset your password</a></p>
+    </div>
+  `;
+}

@@ -4,6 +4,9 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
 import Button from "@/components/ui/Button";
+import { Eye, EyeOff } from "lucide-react";
+
+const passwordRequirements = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
 
 export default function RegisterPage() {
   const t = useTranslations("auth");
@@ -17,9 +20,14 @@ export default function RegisterPage() {
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [visible, setVisible] = useState({ password: false, confirmPassword: false });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!passwordRequirements.test(form.password)) {
+      setError(t("passwordRequirements"));
+      return;
+    }
     if (form.password !== form.confirmPassword) {
       setError("Passwords do not match");
       return;
@@ -54,13 +62,11 @@ export default function RegisterPage() {
           {(["name", "email", "phone", "password", "confirmPassword"] as const).map((field) => (
             <label key={field} className="block">
               <span className="text-sm text-gray-400">{t(field)}</span>
-              <input
-                type={field.includes("password") ? "password" : field === "email" ? "email" : "text"}
-                value={form[field]}
-                onChange={(e) => setForm({ ...form, [field]: e.target.value })}
-                className="mt-1 w-full rounded border border-gray-700 bg-[#0A0A0A] p-3"
-                required
-              />
+              <div className="relative mt-1">
+                <input type={field.includes("password") ? ((field === "password" ? visible.password : visible.confirmPassword) ? "text" : "password") : field === "email" ? "email" : "text"} value={form[field]} onChange={(e) => setForm({ ...form, [field]: e.target.value })} className="w-full rounded border border-gray-700 bg-[#0A0A0A] p-3 pr-11" required />
+                {field.includes("password") && <button type="button" onClick={() => setVisible({ ...visible, [field === "password" ? "password" : "confirmPassword"]: !(field === "password" ? visible.password : visible.confirmPassword) })} className="absolute right-3 top-3 text-gray-400" aria-label={(field === "password" ? visible.password : visible.confirmPassword) ? "Hide password" : "Show password"}>{(field === "password" ? visible.password : visible.confirmPassword) ? <EyeOff size={20} /> : <Eye size={20} />}</button>}
+              </div>
+              {field === "password" && <span className="mt-1 block text-xs text-gray-500">{t("passwordRequirements")}</span>}
             </label>
           ))}
           {error && <p className="text-sm text-red-400">{error}</p>}

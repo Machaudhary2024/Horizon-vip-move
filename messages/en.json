@@ -10,7 +10,8 @@
     "register": "Register",
     "dashboard": "My Bookings",
     "admin": "Admin",
-    "logout": "Logout"
+    "logout": "Logout",
+    "profile": "Profile"
   },
   "hero": {
     "headline": "Premium Travel Between Saudi Arabia and Bahrain",
@@ -130,7 +131,19 @@
     "registerButton": "Register",
     "noAccount": "Don't have an account?",
     "hasAccount": "Already have an account?",
-    "invalidCredentials": "Invalid email or password"
+    "invalidCredentials": "Invalid email or password",
+    "forgotPassword": "Forgot password?",
+    "sendResetLink": "Send reset link",
+    "resetEmailSent": "If that email is registered, a reset link has been sent.",
+    "resetPassword": "Reset Password",
+    "passwordRequirements": "Use at least 8 characters, including uppercase, lowercase, a number, and a symbol.",
+    "passwordMismatch": "Passwords do not match",
+    "resetFailed": "Unable to reset password",
+    "backToLogin": "Back to login",
+    "profile": "Profile",
+    "saveProfile": "Save Profile",
+    "profileSaved": "Profile saved",
+    "profileSaveFailed": "Unable to save profile"
   },
   "contact": {
     "title": "Contact Us",
