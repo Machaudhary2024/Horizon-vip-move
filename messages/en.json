@@ -132,6 +132,8 @@
     "noAccount": "Don't have an account?",
     "hasAccount": "Already have an account?",
     "invalidCredentials": "Invalid email or password",
+    "loginFailed": "Unable to log in. Please try again.",
+    "registerFailed": "Unable to create your account. Please try again.",
     "forgotPassword": "Forgot password?",
     "sendResetLink": "Send reset link",
     "resetEmailSent": "If that email is registered, a reset link has been sent.",

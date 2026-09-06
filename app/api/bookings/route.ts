@@ -3,6 +3,8 @@ import { z } from "zod";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { sendEmail, bookingNotificationEmail } from "@/lib/email";
+import { rateLimitMiddleware, RATE_LIMITS } from "@/lib/rate-limit";
+import { jobQueue } from "@/lib/job-queue";
 
 const schema = z.object({
   pickupDate: z.string(),
@@ -25,6 +27,12 @@ const schema = z.object({
 
 export async function POST(request: Request) {
   try {
+    // Rate limiting
+    const rateLimit = await rateLimitMiddleware(request, "createBooking");
+    if (!rateLimit.allowed && rateLimit.response) {
+      return rateLimit.response;
+    }
+
     const session = await auth();
     if (!session?.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -49,7 +57,7 @@ export async function POST(request: Request) {
       include: { user: true },
     });
 
-    const admin = await prisma.user.findFirst({ where: { role: "ADMIN" } });
+    // Queue emails instead of awaiting them (non-blocking)
     const emailHtml = bookingNotificationEmail({
       bookingId: booking.id,
       customerName: booking.user.name,
@@ -59,15 +67,15 @@ export async function POST(request: Request) {
       isAdmin: true,
     });
 
-    if (admin?.email) {
-      await sendEmail({
-        to: admin.email,
-        subject: `New Booking Request - ${booking.id.slice(0, 8)}`,
-        html: emailHtml,
-      });
-    }
+    // Send admin notification
+    await jobQueue.addJob("send-email", {
+      to: "admin@horizonvipmove.com", // Replace with actual admin email
+      subject: `New Booking Request - ${booking.id.slice(0, 8)}`,
+      html: emailHtml,
+    });
 
-    await sendEmail({
+    // Send customer confirmation
+    await jobQueue.addJob("send-email", {
       to: booking.user.email,
       subject: "Booking Request Received - Horizon-VIP-Move",
       html: bookingNotificationEmail({
@@ -78,6 +86,22 @@ export async function POST(request: Request) {
         dropoffLocation: data.dropoffLocation,
       }),
     });
+
+    // Return response immediately with rate limit headers
+    return NextResponse.json(booking, {
+      headers: rateLimit.headers,
+    });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ error: "Invalid input" }, { status: 400 });
+    }
+    console.error(error);
+    return NextResponse.json(
+      { error: "Failed to create booking" },
+      { status: 500 }
+    );
+  }
+}
 
     return NextResponse.json(booking);
   } catch (error) {

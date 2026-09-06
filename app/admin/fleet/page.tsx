@@ -1,6 +1,6 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import Link from "next/link";
+import AdminPortalHeader from "@/components/admin/AdminPortalHeader";
 
 export default async function AdminFleetPage() {
   const session = await auth();
@@ -15,10 +15,8 @@ export default async function AdminFleetPage() {
   return (
     <div className="min-h-screen bg-[#0A0A0A] p-6 text-white lg:p-8">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-8 flex items-center justify-between">
-          <h1 className="font-display text-3xl text-[var(--gold)]">Fleet & Pricing</h1>
-          <Link href="/admin" className="text-sm text-gray-400 hover:text-[var(--gold)]">← Back</Link>
-        </div>
+        <h1 className="mb-4 font-display text-3xl text-[var(--gold)]">Fleet & Pricing</h1>
+        <AdminPortalHeader />
 
         <h2 className="mb-4 text-lg text-[var(--gold)]">Vehicle Tiers</h2>
         <div className="mb-12 grid gap-4 md:grid-cols-3">

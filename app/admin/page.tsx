@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import AdminBookingTable from "@/components/admin/AdminBookingTable";
-import Link from "next/link";
+import AdminPortalHeader from "@/components/admin/AdminPortalHeader";
 
 export default async function AdminPage() {
   const session = await auth();
@@ -31,15 +31,10 @@ export default async function AdminPage() {
   return (
     <div className="min-h-screen bg-[#0A0A0A] p-6 text-white lg:p-8">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+        <div className="mb-8 flex items-center justify-between gap-4">
           <h1 className="font-display text-3xl text-[var(--gold)]">Admin Dashboard</h1>
-          <nav className="flex gap-4 text-sm">
-            <Link href="/admin" className="text-[var(--gold)]">Overview</Link>
-            <Link href="/admin/bookings" className="text-gray-400 hover:text-[var(--gold)]">Bookings</Link>
-            <Link href="/admin/fleet" className="text-gray-400 hover:text-[var(--gold)]">Fleet</Link>
-            <Link href="/en" className="text-gray-400 hover:text-[var(--gold)]">View Site</Link>
-          </nav>
         </div>
+        <AdminPortalHeader />
 
         <div className="mb-8 grid gap-4 sm:grid-cols-3">
           <div className="card-luxury">

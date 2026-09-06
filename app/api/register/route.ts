@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import { rateLimitMiddleware } from "@/lib/rate-limit";
 
 const schema = z.object({
   name: z.string().min(2),
@@ -12,8 +13,14 @@ const schema = z.object({
 
 export async function POST(request: Request) {
   try {
+    const rateLimit = await rateLimitMiddleware(request, "register");
+    if (!rateLimit.allowed) return rateLimit.response;
+
     const body = await request.json();
-    const data = schema.parse(body);
+    const data = schema.parse({
+      ...body,
+      email: typeof body.email === "string" ? body.email.trim().toLowerCase() : body.email,
+    });
 
     const existing = await prisma.user.findUnique({ where: { email: data.email } });
     if (existing) {

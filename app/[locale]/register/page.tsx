@@ -29,27 +29,32 @@ export default function RegisterPage() {
       return;
     }
     if (form.password !== form.confirmPassword) {
-      setError("Passwords do not match");
+      setError(t("passwordMismatch"));
       return;
     }
 
     setLoading(true);
     setError("");
 
-    const res = await fetch("/api/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
+    try {
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, email: form.email.trim().toLowerCase() }),
+      });
 
-    const data = await res.json();
-    if (!res.ok) {
-      setError(data.error || "Registration failed");
+      const data = await res.json().catch(() => null);
+      if (!res.ok) {
+        setError(data?.error || t("registerFailed"));
+        setLoading(false);
+        return;
+      }
+
+      router.push("/login");
+    } catch {
+      setError(t("registerFailed"));
       setLoading(false);
-      return;
     }
-
-    router.push("/login");
   };
 
   return (
