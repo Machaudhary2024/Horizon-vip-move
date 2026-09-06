@@ -145,7 +145,15 @@
     "profile": "Profile",
     "saveProfile": "Save Profile",
     "profileSaved": "Profile saved",
-    "profileSaveFailed": "Unable to save profile"
+    "profileSaveFailed": "Unable to save profile",
+    "verifyEmail": "Verify Your Email",
+    "verificationInstructions": "Enter the 6-digit code sent to your email address.",
+    "verificationCode": "Verification Code",
+    "verifyButton": "Verify Email",
+    "verificationSuccess": "Email verified. Redirecting to login...",
+    "verificationFailed": "Unable to verify your email. Please check the code and try again.",
+    "resendVerification": "Resend code",
+    "verificationResent": "A new verification code has been sent."
   },
   "contact": {
     "title": "Contact Us",

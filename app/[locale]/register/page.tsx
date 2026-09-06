@@ -50,7 +50,7 @@ export default function RegisterPage() {
         return;
       }
 
-      router.push("/login");
+      router.push(`/verify?email=${encodeURIComponent(form.email.trim().toLowerCase())}`);
     } catch {
       setError(t("registerFailed"));
       setLoading(false);

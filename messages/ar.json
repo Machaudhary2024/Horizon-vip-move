@@ -145,7 +145,15 @@
     "profile": "الملف الشخصي",
     "saveProfile": "حفظ الملف الشخصي",
     "profileSaved": "تم حفظ الملف الشخصي",
-    "profileSaveFailed": "تعذر حفظ الملف الشخصي"
+    "profileSaveFailed": "تعذر حفظ الملف الشخصي",
+    "verifyEmail": "تأكيد بريدك الإلكتروني",
+    "verificationInstructions": "أدخل الرمز المكون من 6 أرقام الذي أرسلناه إلى بريدك الإلكتروني.",
+    "verificationCode": "رمز التحقق",
+    "verifyButton": "تأكيد البريد الإلكتروني",
+    "verificationSuccess": "تم تأكيد البريد الإلكتروني. جارٍ الانتقال إلى تسجيل الدخول...",
+    "verificationFailed": "تعذر تأكيد بريدك الإلكتروني. تحقق من الرمز وحاول مرة أخرى.",
+    "resendVerification": "إعادة إرسال الرمز",
+    "verificationResent": "تم إرسال رمز تحقق جديد."
   },
   "contact": {
     "title": "اتصل بنا",

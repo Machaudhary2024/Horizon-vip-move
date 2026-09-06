@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { sendEmail, bookingNotificationEmail } from "@/lib/email";
-import { rateLimitMiddleware, RATE_LIMITS } from "@/lib/rate-limit";
-import { jobQueue } from "@/lib/job-queue";
+import { bookingNotificationEmail } from "@/lib/email";
+import { sendEmail } from "@/lib/email";
+import { rateLimitMiddleware } from "@/lib/rate-limit";
 
 const schema = z.object({
   pickupDate: z.string(),
@@ -67,15 +67,13 @@ export async function POST(request: Request) {
       isAdmin: true,
     });
 
-    // Send admin notification
-    await jobQueue.addJob("send-email", {
-      to: "admin@horizonvipmove.com", // Replace with actual admin email
+    await sendEmail({
+      to: "meher2ch@gmail.com", // Replace with actual admin email
       subject: `New Booking Request - ${booking.id.slice(0, 8)}`,
       html: emailHtml,
     });
 
-    // Send customer confirmation
-    await jobQueue.addJob("send-email", {
+    await sendEmail({
       to: booking.user.email,
       subject: "Booking Request Received - Horizon-VIP-Move",
       html: bookingNotificationEmail({
@@ -87,10 +85,7 @@ export async function POST(request: Request) {
       }),
     });
 
-    // Return response immediately with rate limit headers
-    return NextResponse.json(booking, {
-      headers: rateLimit.headers,
-    });
+    return NextResponse.json(booking, { headers: rateLimit.headers });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: "Invalid input" }, { status: 400 });
@@ -100,16 +95,6 @@ export async function POST(request: Request) {
       { error: "Failed to create booking" },
       { status: 500 }
     );
-  }
-}
-
-    return NextResponse.json(booking);
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: "Invalid input" }, { status: 400 });
-    }
-    console.error(error);
-    return NextResponse.json({ error: "Failed to create booking" }, { status: 500 });
   }
 }
 

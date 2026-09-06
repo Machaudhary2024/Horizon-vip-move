@@ -20,15 +20,3 @@ if (process.env.NODE_ENV !== "production") {
   globalForPrisma.prisma = prisma;
 }
 
-// Handle connection cleanup on app shutdown
-if (typeof global !== "undefined") {
-  const originalExit = process.exit.bind(process);
-  process.exit = async function (...args) {
-    try {
-      await prisma.$disconnect();
-    } catch (e) {
-      console.error("Error disconnecting Prisma:", e);
-    }
-    originalExit(...args);
-  } as never;
-}

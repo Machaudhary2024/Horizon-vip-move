@@ -4,6 +4,7 @@ import withPWA from "@ducanh2912/next-pwa";
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const nextConfig = withNextIntl({
+  serverExternalPackages: ["nodemailer"],
   images: {
     remotePatterns: [],
   },
