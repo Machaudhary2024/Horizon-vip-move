@@ -68,7 +68,7 @@ export default function RegisterPage() {
             <label key={field} className="block">
               <span className="text-sm text-gray-400">{t(field)}</span>
               <div className="relative mt-1">
-                <input type={field.includes("password") ? ((field === "password" ? visible.password : visible.confirmPassword) ? "text" : "password") : field === "email" ? "email" : "text"} value={form[field]} onChange={(e) => setForm({ ...form, [field]: e.target.value })} className="w-full rounded border border-gray-700 bg-[#0A0A0A] p-3 pr-11" required />
+                <input type={field === "password" || field === "confirmPassword" ? ((field === "password" ? visible.password : visible.confirmPassword) ? "text" : "password") : field === "email" ? "email" : "text"} value={form[field]} onChange={(e) => setForm({ ...form, [field]: e.target.value })} className="w-full rounded border border-gray-700 bg-[#0A0A0A] p-3 pr-11" required />
                 {field.includes("password") && <button type="button" onClick={() => setVisible({ ...visible, [field === "password" ? "password" : "confirmPassword"]: !(field === "password" ? visible.password : visible.confirmPassword) })} className="absolute right-3 top-3 text-gray-400" aria-label={(field === "password" ? visible.password : visible.confirmPassword) ? "Hide password" : "Show password"}>{(field === "password" ? visible.password : visible.confirmPassword) ? <EyeOff size={20} /> : <Eye size={20} />}</button>}
               </div>
               {field === "password" && <span className="mt-1 block text-xs text-gray-500">{t("passwordRequirements")}</span>}
