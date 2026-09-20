@@ -25,7 +25,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000)
 
-**Admin login:** `admin@vip-move.online` / `admin123` (change in production)
+**Admin login:** the values of `ADMIN_EMAIL` and `ADMIN_PASSWORD` (the seed must be run after changing them)
 
 ## Environment Variables
 
@@ -46,7 +46,9 @@ Copy `.env.example` to `.env` and configure:
 2. Import project in [Vercel](https://vercel.com)
 3. Add environment variables from `.env.example`
 4. Use [Neon](https://neon.tech) or [Supabase](https://supabase.com) for PostgreSQL
-5. Connect domain `www.vip-move.online`
+5. Run `npm run db:seed` with the production `DATABASE_URL`, `ADMIN_EMAIL`, and `ADMIN_PASSWORD`
+6. Redeploy after changing environment variables
+7. Connect domain `www.vip-move.online`
 
 ## Project Structure
 
