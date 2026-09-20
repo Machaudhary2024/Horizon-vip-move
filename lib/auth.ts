@@ -18,8 +18,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
 
+        const email = (credentials.email as string).trim().toLowerCase();
+        const password = credentials.password as string;
+        const adminEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
+        const adminPassword = process.env.ADMIN_PASSWORD;
+
+        if (adminEmail && adminPassword && email === adminEmail && password === adminPassword) {
+          return {
+            id: "env-admin",
+            name: "Admin",
+            email: adminEmail,
+            role: "ADMIN",
+          };
+        }
+
         const user = await prisma.user.findUnique({
-          where: { email: (credentials.email as string).trim().toLowerCase() },
+          where: { email },
         });
 
         if (!user) return null;
@@ -27,7 +41,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (!user.emailVerified) return null;
 
         const valid = await bcrypt.compare(
-          credentials.password as string,
+          password,
           user.password
         );
 
